@@ -1,9 +1,3 @@
-arctan ← ⍘○ ÷ √ +1 ⁿ2 .
-~~~
-⍤ "arctan 0" = arctan 0 0
-⍤ "arctan 1" = ⁅ arctan 1 ⁅ ÷2η
-~~~
-
 coordsToXY ← ≡parse ↯ 2_3
 ~~~
 ⍤ "Normal" ≅ [14 13] coordsToXY "014013"
@@ -19,12 +13,21 @@ asBearings ← ⁅ ÷τ ×360
 ~~~
 
 coordsToBearings ← (
+  # Convert strings to [x y]
   coordsToXY
   coordsToXY ∶
+  # Find the vec between the coords
   -
-  arctan /÷ .
+  # Get arctan of [x y]
+  ∠ ⊡1∶ ⊡0. .
+  # Do η - θ
   - ∶η
-  + × π <0 ⊢∶
+  # Check if -x and +y
+  <0 ⊡0.∶
+  >0 ⊡1∶
+  = 2 +
+  # If yes add τ
+  + × τ
   asBearings
 )
 ~~~
